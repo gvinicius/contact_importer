@@ -32,6 +32,7 @@ gem 'devise', '~> 4.8.0'
 gem 'emoji_flag'
 gem 'i18n-js'
 gem 'validate_url', '~> 1.0.13'
+gem 'credit_card_validations'
 
 group :development, :test do
   # Reduces boot times through caching; required in config/boot.rb
