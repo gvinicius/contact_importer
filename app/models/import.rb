@@ -8,23 +8,23 @@ class Import < ApplicationRecord
 
   belongs_to :user
 
-  def run(user)
+  def run
     update(status: :processing)
     errors = []
-    total = 1
+    total = 0
 
-    CSV.foreach(ActiveStorage::Blob.service.path_for(sheet.key), :headers => true) do |row|
+    CSV.foreach(ActiveStorage::Blob.service.path_for(sheet.key), headers: true) do |row|
       total = total +1
       data = row.to_hash
 
       card = data.delete('credit_card')
       contact = Contact.new(data)
       contact.card = card
-      contact.user = user
+      contact.user = self.user
 
       contact.save!
     rescue Exception => error
-      errors += ["#{error.to_s}: #{error.to_s}"]
+      errors += ["#{total}: #{error.to_s}"]
     end
 
     if errors.empty?

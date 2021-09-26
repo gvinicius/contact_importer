@@ -4,9 +4,6 @@ RSpec.describe Import, type: :model do
   let(:import) do
     FactoryBot.create(:import)
   end
-  let(:user) do
-    FactoryBot.create(:user)
-  end
 
   it { is_expected.to respond_to(:status) }
   it { is_expected.to respond_to(:user) }
@@ -16,7 +13,7 @@ RSpec.describe Import, type: :model do
 
   describe '#run' do
     it 'imports just one correct contact' do
-      expect{ import.run(user) }.to change { Contact.count }.by(1)
+      expect{ import.run }.to change { Contact.count }.by(1)
     end
   end
 end
