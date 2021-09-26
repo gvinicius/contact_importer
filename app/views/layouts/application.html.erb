@@ -6,11 +6,21 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag "application" %>
+    <%= javascript_pack_tag "hello_react" %>
   </head>
 
   <body>
+    <div class='navbar-text navbar-right'>
+      <%= link_to t('.home'), root_path, locale: I18n.locale %> |
+      <% if current_user %>
+        <b> <%= current_user.username %> </b> |
+        <%= link_to t(".sign_out"), destroy_user_session_path, method: :delete %>
+      <% else %>
+        <%= link_to t(".sign_in"), new_user_session_path, locale: I18n.locale %> |
+        <%= link_to t(".sign_up"), new_user_registration_path, locale: I18n.locale %> |
+      <% end %>
+    </div>
     <%= yield %>
   </body>
 </html>
