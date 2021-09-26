@@ -33,6 +33,17 @@ module ContactImporter
     # config.eager_load_paths << Rails.root.join("extras")
 
     # Don't generate system test files.
-    config.generators.system_tests = nil
+    # config.generators.system_tests = nil
+    config.i18n.default_locale = :en
+    config.i18n.available_locales = %i[en de]
+
+    config.generators do |g|
+      g.test_framework :rspec
+      g.helper_specs false
+      g.controller_specs true
+      g.view_specs false
+      g.routing_specs false
+      g.request_specs false
+    end
   end
 end
