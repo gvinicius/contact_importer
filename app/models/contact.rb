@@ -1,25 +1,28 @@
 class Contact < ApplicationRecord
   belongs_to :user
+  extend AttrEncrypted
 
+  attr_accessor :card
+  attr_encrypted :credit_card, key: 'This is a key that is 256 bits!!'
   validates :name, presence: true, format: { with: /\A[a-zA-Z,-]*\z/i, message: 'invalid'}
   validates :date_of_birth, presence: true
   validate :validate_date_of_birth
   validates :phone, presence: true
   validate :validate_phone
   validates :address, presence: true
-  validates :credit_card, presence: true
   validates :franchise, presence: true
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validate :validate_repeated_contact_by_user
   validate :validate_credit_card
   before_validation :add_franchise
+  before_save :encrypt_card
 
   private
 
   def add_franchise
-    return nil unless credit_card.present?
+    return nil unless card.present?
 
-    self.franchise = CreditCardValidations::Detector.new(credit_card)&.brand&.to_s
+    self.franchise = CreditCardValidations::Detector.new(card)&.brand&.to_s
   end
 
   def validate_date_of_birth
@@ -41,8 +44,8 @@ class Contact < ApplicationRecord
   end
 
   def validate_credit_card
-    return if CreditCardValidations::Detector.new(credit_card).presence
+    return if CreditCardValidations::Detector.new(card).presence
 
-    errors.add(:credit_card, 'invalid')
+    errors.add(:encrypted_credit_card, 'invalid')
   end
 end

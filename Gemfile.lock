@@ -61,6 +61,8 @@ GEM
       tzinfo (~> 2.0)
       zeitwerk (~> 2.3)
     ast (2.4.2)
+    attr_encrypted (3.1.0)
+      encryptor (~> 3.0.0)
     bcrypt (3.1.16)
     bindex (0.8.1)
     bootsnap (1.9.1)
@@ -80,6 +82,7 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.4.4)
     emoji_flag (0.1.1)
+    encryptor (3.0.0)
     erubi (1.10.0)
     factory_bot (6.2.0)
       activesupport (>= 5.0.0)
@@ -268,6 +271,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  attr_encrypted (~> 3.1.0)
   bootsnap (>= 1.4.4)
   byebug
   credit_card_validations

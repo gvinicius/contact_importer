@@ -20,7 +20,8 @@ ActiveRecord::Schema.define(version: 2021_09_26_095735) do
     t.string "date_of_birth"
     t.string "phone"
     t.text "address"
-    t.string "credit_card"
+    t.string "encrypted_credit_card"
+    t.string "encrypted_credit_card_iv"
     t.string "franchise"
     t.string "email"
     t.datetime "created_at", precision: 6, null: false

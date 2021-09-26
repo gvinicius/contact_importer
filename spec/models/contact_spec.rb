@@ -119,7 +119,7 @@ RSpec.describe Contact, type: :model do
     end
 
     it 'does not set a correct franchise given a wrong credit_card' do
-      contact.credit_card = nil
+      contact.card = nil
 
       expect{ contact.send(:add_franchise) }.to_not change { contact.franchise }
     end
