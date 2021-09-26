@@ -15,7 +15,6 @@ class Contact < ApplicationRecord
   validate :validate_repeated_contact_by_user
   validate :validate_credit_card
   before_validation :add_franchise
-  before_save :encrypt_card
 
   private
 
