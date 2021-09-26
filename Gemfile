@@ -24,6 +24,8 @@ gem 'jbuilder', '~> 2.7'
 # Use Active Model has_secure_password
 gem "attr_encrypted", "~> 3.1.0"
 gem 'webpacker', '~> 4.3'
+gem 'activestorage-validator'
+
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'

@@ -4,7 +4,8 @@ class Import < ApplicationRecord
   enum status: %w(on_hold processing failed terminated)
 
   has_one_attached :sheet
-  validate :acceptable_sheet
+
+  validates :sheet, presence: true, blob: { content_type: ['text/csv'], size_range: 1..5.megabytes }
 
   belongs_to :user
 
@@ -31,17 +32,6 @@ class Import < ApplicationRecord
       update(status: :terminated, total: total)
     else
       update(status: :failed, total: total, report: errors.join('\n'))
-    end
-  end
-
-  private
-
-  def acceptable_sheet
-    return unless sheet.attached?
-
-    acceptable_types = ['text/csv']
-    unless acceptable_types.include?(sheet.content_type)
-      errors.add(:sheet, 'must be a CSV')
     end
   end
 end

@@ -7,8 +7,8 @@ FactoryBot.define do
     report { "" }
     user { create(:user) }
 
-    after(:build) do |user|
-      user.sheet.attach(io: File.open("#{Rails.root}/spec/fixtures/sheet.csv"), filename: 'sheet.csv', content_type: 'text/csv')
+    after(:build) do |import|
+      import.sheet.attach(io: File.open("#{Rails.root}/spec/fixtures/sheet.csv"), filename: 'sheet.csv', content_type: 'text/csv')
     end
   end
 end

@@ -5,7 +5,7 @@
 * Ruby - 3.0.2
 * Rails - 6.1.0
 * PostgreSQL - 12
-* Node.js - 14.0.0
+* Node.js - 14.15.1
 * Yarn - 1.22.5
 * React.js - 17.0.2 (via Webpacker)
 
