@@ -11,7 +11,7 @@ RSpec.describe Api::V1::ImportsController, type: :controller do
     it "activates the run operation" do
       expect_any_instance_of(Import).to receive(:run)
 
-      post :create, params: { import: { file: file } }
+      post :create, params: { file: file }
     end
   end
 

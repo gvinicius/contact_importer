@@ -48,8 +48,8 @@ ActiveRecord::Schema.define(version: 2021_09_26_180908) do
     t.string "date_of_birth"
     t.string "phone"
     t.text "address"
-    t.string "encrypted_credit_card"
-    t.string "encrypted_credit_card_iv"
+    t.binary "encrypted_credit_card"
+    t.binary "encrypted_credit_card_iv"
     t.string "franchise"
     t.string "email"
     t.datetime "created_at", precision: 6, null: false
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 2021_09_26_180908) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "username"
+    t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 

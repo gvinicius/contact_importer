@@ -1,10 +1,11 @@
 class Contact < ApplicationRecord
-  KEY = 'This is a key that is 256 bits!!'
+  KEY = "%\x04\x1Et\xC4\x88\x8F\x9D\xC6\xD3\xD1\x7F\x92\xF9 DQ\x14\x19\x8D\xA7\xE9\x1DZ\xD4\xDF\xE5\xB4\x8F\x9D\xC7\x15"
+  IV = "\x86v\xF5\xD4\xFF\xD0\xAA\xEB\x9C\x9C\x0Ea"
   belongs_to :user
   extend AttrEncrypted
 
   attr_accessor :card
-  attr_encrypted :credit_card, key: KEY, algorithm: 'aes-256-cbc', mode: :single_iv_and_salt, insecure_mode: true
+  attr_encrypted :credit_card, key: KEY
   validates :name, presence: true, format: { with: /\A[a-zA-Z,-]*\z/i, message: 'invalid'}
   validates :date_of_birth, presence: true
   validate :validate_date_of_birth
@@ -18,9 +19,8 @@ class Contact < ApplicationRecord
   before_validation :add_franchise
 
   def prepared_contact
-    loaded = Contact.decrypt_credit_card(self.encrypted_credit_card, key: KEY)
-    as_json.merge({card_ref: loaded&[-4, loaded&.length], date_of_birth: Date.parse(date_of_birth).strftime("%Y %B %e")})
-  end
+    result = as_json.except!("encrypted_credit_card")
+      result.merge({card_ref: self.credit_card.to_s[-4,self.credit_card.length], date_of_birth: Date.parse(date_of_birth).strftime("%Y %B %e")}) end
 
   private
 
@@ -49,7 +49,11 @@ class Contact < ApplicationRecord
   end
 
   def validate_credit_card
-    return if CreditCardValidations::Detector.new(card).presence
+    if CreditCardValidations::Detector.new(card).presence
+      self.credit_card = card
+    end
+    return unless self.encrypted_credit_card.nil?
+
 
     errors.add(:encrypted_credit_card, 'invalid')
   end

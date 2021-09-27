@@ -85,30 +85,12 @@ RSpec.describe Contact, type: :model do
     end
 
     describe '#validate_credit_card' do
-      before do
-        contact.dup.save
-      end
-
-      let(:different_user) { FactoryBot.create(:user, username: 'another_person') }
-
       it 'allows to save an existing email for a different user' do
-        contact.user = different_user
+        contact.credit_card = nil
+        contact.card = nil
         contact.valid?
 
-        expect(contact.errors.details[:email]).to be_empty
-      end
-
-      it 'does not allow to save an existing email for a different user' do
-        contact.valid?
-
-        expect(contact.errors.details[:email]).to_not be_empty
-      end
-
-      it 'allows to save an existing email for a different user' do
-        contact.user = different_user
-        contact.valid?
-
-        expect(contact.errors.details[:email]).to be_empty
+        expect(contact.errors.details[:encrypted_credit_card]).to_not be_empty
       end
     end
   end

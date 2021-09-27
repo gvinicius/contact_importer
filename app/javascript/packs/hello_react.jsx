@@ -54,6 +54,13 @@ const Landing = () => {
     retrieveContacts();
   }, [file]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      retrieveContacts();
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
   const handleSubmit = (file) => {
     if(file === undefined || file === '') {
       return null;
@@ -133,10 +140,8 @@ const Landing = () => {
                   page={props.page}
                   rowsPerPage={props.rowsPerPage}
                   rowsPerPageOptions={props.rowsPerPageOptions}
-                  onPageChange={props.onPageChange}
-                  onChangePage={props.onPageChange}
-                  onChangeRowsPerPage={props.onRowsPerPageChange}
-                  onRowsPerPageChange={props.onRowsPerPageChange}
+                  onChangePage={props.onChangePage}
+                  onChangeRowsPerPage={props.onChangeRowsPerPage}
 
                 />
               )
@@ -182,14 +187,12 @@ const Landing = () => {
                   nextIconButtonProps={{ 'aria-label': '>' }}
                   labelRowsPerPage='Per page: '
                   labelDisplayedRows={({ from, to, count }) => `${from}-${to} from ${count}`}
-                  count={imports.length}
+                  count={contacts.length}
                   page={props.page}
                   rowsPerPage={props.rowsPerPage}
                   rowsPerPageOptions={props.rowsPerPageOptions}
-                  onPageChange={props.onPageChange}
-                  onChangePage={props.onPageChange}
-                  onChangeRowsPerPage={props.onRowsPerPageChange}
-                  onRowsPerPageChange={props.onRowsPerPageChange}
+                  onChangePage={props.onChangePage}
+                  onChangeRowsPerPage={props.onChangeRowsPerPage}
 
                 />
               )
