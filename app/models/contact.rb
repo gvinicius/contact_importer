@@ -1,9 +1,10 @@
 class Contact < ApplicationRecord
+  KEY = 'This is a key that is 256 bits!!'
   belongs_to :user
   extend AttrEncrypted
 
   attr_accessor :card
-  attr_encrypted :credit_card, key: 'This is a key that is 256 bits!!'
+  attr_encrypted :credit_card, key: KEY, algorithm: 'aes-256-cbc', mode: :single_iv_and_salt, insecure_mode: true
   validates :name, presence: true, format: { with: /\A[a-zA-Z,-]*\z/i, message: 'invalid'}
   validates :date_of_birth, presence: true
   validate :validate_date_of_birth
@@ -15,6 +16,11 @@ class Contact < ApplicationRecord
   validate :validate_repeated_contact_by_user
   validate :validate_credit_card
   before_validation :add_franchise
+
+  def prepared_contact
+    loaded = Contact.decrypt_credit_card(self.encrypted_credit_card, key: KEY)
+    as_json.merge({card_ref: loaded&[-4, loaded&.length], date_of_birth: Date.parse(date_of_birth).strftime("%Y %B %e")})
+  end
 
   private
 

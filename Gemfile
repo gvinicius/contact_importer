@@ -25,7 +25,7 @@ gem 'jbuilder', '~> 2.7'
 gem "attr_encrypted", "~> 3.1.0"
 gem 'webpacker', '~> 4.3'
 gem 'activestorage-validator'
-
+gem 'rails-ujs';
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'

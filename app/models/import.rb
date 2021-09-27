@@ -13,9 +13,10 @@ class Import < ApplicationRecord
     update(status: :processing)
     errors = []
     total = 0
+    errored = 0
 
     CSV.foreach(ActiveStorage::Blob.service.path_for(sheet.key), headers: true) do |row|
-      total = total +1
+      total = total + 1
       data = row.to_hash
 
       card = data.delete('credit_card')
@@ -25,12 +26,14 @@ class Import < ApplicationRecord
 
       contact.save!
     rescue Exception => error
+      errored = errored + 1
       errors += ["#{total}: #{error.to_s}"]
     end
 
     if errors.empty?
       update(status: :terminated, total: total)
     else
+      errors = ["Errors total: #{errored.to_s}"] + errors
       update(status: :failed, total: total, report: errors.join('\n'))
     end
   end

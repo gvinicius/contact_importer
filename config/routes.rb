@@ -3,6 +3,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       post 'imports', to: 'imports#create', defaults: { format: 'json' }
       get 'imports', to: 'imports#index', defaults: { format: 'json' }
+
+      get 'contacts', to: 'contacts#index'
     end
   end
 

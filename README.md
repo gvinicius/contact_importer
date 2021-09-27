@@ -33,3 +33,6 @@
 * Run `bundle exec rails db:migrate`;
 * Run `bundle exec rails assets:precompile`;
 * Start puma server as a deamon (make sure you have enough permissions and firewall rules done) with `bundle exec puma -p 80`;
+
+## Useful commands
+* `curl -X POST 'http://127.0.0.1:3000/api/v1/imports' --header 'Content-Type: multipart/mixed' --form 'file=@/path/to/file.csv'`
